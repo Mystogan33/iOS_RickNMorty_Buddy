@@ -18,7 +18,7 @@ struct Location: Decodable {
     
 }
 
-class LocationsViewController: UIViewController, UICollectionViewDataSource {
+class LocationsViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
     
     var locations = [Location]()
@@ -33,6 +33,7 @@ class LocationsViewController: UIViewController, UICollectionViewDataSource {
         
 
         collectionView.dataSource = self
+        collectionView.delegate = self
         
         let url = URL(string: "https://api.jsonbin.io/b/5b155b877a973f4ce578525a")
         
@@ -80,6 +81,17 @@ class LocationsViewController: UIViewController, UICollectionViewDataSource {
         cell.imageView.contentMode = .scaleAspectFill
         
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "showDetailsLocation", sender: indexPath.row)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showDetailsLocation" {
+            let destinationViewController = segue.destination as! LocationDetailsViewController
+            destinationViewController.location = locations[sender as! Int]
+        }
     }
 
 }

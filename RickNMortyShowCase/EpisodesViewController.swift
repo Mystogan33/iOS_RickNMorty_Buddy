@@ -38,7 +38,7 @@ struct Episode: Decodable {
     
 }
 
-class EpisodesViewController: UIViewController, UICollectionViewDataSource {
+class EpisodesViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
     var episodes = [Episode]()
     
@@ -50,6 +50,7 @@ class EpisodesViewController: UIViewController, UICollectionViewDataSource {
         super.viewDidLoad()
         
         collectionView.dataSource = self
+        collectionView.delegate = self
         
         let url = URL(string: "https://api.jsonbin.io/b/5b156b39c2e3344ccd96cc6f")
         
@@ -92,6 +93,17 @@ class EpisodesViewController: UIViewController, UICollectionViewDataSource {
         cell.imageView.contentMode = .scaleAspectFill
         
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "showDetailsEpisode", sender: indexPath.row)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showDetailsEpisode" {
+            let destinationViewController = segue.destination as! EpisodeDetailsViewController
+            destinationViewController.episode = episodes[sender as! Int]
+        }
     }
 
     override func didReceiveMemoryWarning() {

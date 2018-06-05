@@ -24,12 +24,28 @@ class CharacterDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        imageView.downloadedFrom(link: character.image)
+        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFill
+        
+        
         nameLbl.text = character.name
+        nameLbl.layer.cornerRadius = 20
+        
         speciesLbl.text = character.species
+        speciesLbl.layer.cornerRadius = 20
+        
         statusLbl.text = character.status
+        genderLbl.layer.cornerRadius = 20
+        
         genderLbl.text = character.gender
+        genderLbl.layer.cornerRadius = 20
+        
         originLbl.text = character.origin
+        originLbl.layer.cornerRadius = 20
+        
         lastLocationLbl.text = character.location
+        lastLocationLbl.layer.cornerRadius = 20
         
     }
 
